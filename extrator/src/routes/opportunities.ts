@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import pool from '../db/pool';
-import { loadItems } from '../utils/item-loader';
+import { loadItems, loadLocations } from '../utils/item-loader';
 
 const router = Router();
 
@@ -125,13 +125,16 @@ router.get('/market-orders', async (req, res) => {
 
     console.log(`📊 Found ${opportunities.length} arbitrage opportunities`);
 
-    // Load item names in PT-BR
+    // Load item names in PT-BR and locations
     const itemNames = loadItems();
+    const locations = loadLocations();
 
-    // Add item names to opportunities
+    // Add item names and location names to opportunities
     const opportunitiesWithNames = opportunities.map(opp => ({
       ...opp,
-      item_name: itemNames[opp.item_type_id] || opp.item_type_id
+      item_name: itemNames[opp.item_type_id] || opp.item_type_id,
+      buy_location_name: locations[opp.buy_location] || opp.buy_location,
+      sell_location_name: locations[opp.sell_location] || opp.sell_location
     }));
 
     res.json({
