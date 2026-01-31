@@ -1,0 +1,26 @@
+services:
+  # PostgreSQL Database
+  db:
+    image: postgres:16-alpine
+    container_name: albion_db
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-albion}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-albion123}
+      POSTGRES_DB: ${POSTGRES_DB:-albion_market}
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U albion"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  pgdata:
+    driver: local
+
+networks:
+  default:
+    name: albion_network

@@ -1,0 +1,14 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "debug index.ts",
+      "type": "node",
+      "request": "launch",
+      "program": "${workspaceFolder}/index.ts",
+      "runtimeExecutable": "ts-node",
+      "console": "integratedTerminal",
+      "internalConsoleOptions": "openOnSessionStart"
+    }
+  ]
+}
